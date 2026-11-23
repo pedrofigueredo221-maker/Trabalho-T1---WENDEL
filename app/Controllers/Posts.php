@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Controllers\BaseController;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Posts extends BaseController
@@ -11,6 +10,7 @@ class Posts extends BaseController
     {
         $postModel = model('PostModel');
         $dados['posts'] = $postModel->orderBy('id', 'DESC')->findAll();
+
         return view('inicio', $dados);
     }
 
@@ -18,9 +18,11 @@ class Posts extends BaseController
     {
         $postModel = model('PostModel');
         $dados['post'] = $postModel->find($id);
+
         if (!$dados['post']) {
             throw PageNotFoundException::forPageNotFound();
         }
+
         return view('post', $dados);
     }
 
@@ -28,35 +30,55 @@ class Posts extends BaseController
     {
         $postModel = model('PostModel');
         $dados['posts'] = $postModel->orderBy('id', 'DESC')->findAll();
+
         return view('posts', $dados);
     }
 
     public function inserir()
     {
-        $dados = ['post' => null, 'msg' => ''];
+        $dados['msg'] = '';
+
         if ($this->request->is('post')) {
             $postModel = model('PostModel');
-            if ($postModel->insert($this->request->getPost())) {
+
+            $post = [
+                'titulo' => $this->request->getPost('titulo'),
+                'conteudo' => $this->request->getPost('conteudo')
+            ];
+
+            if ($postModel->insert($post)) {
                 return redirect()->to(site_url('painel/posts'));
             }
-            $dados['msg'] = 'Preencha os campos corretamente.';
+
+            $dados['msg'] = 'Preencha o título e o conteúdo.';
         }
+
         return view('posts_form', $dados);
     }
 
     public function editar($id)
     {
         $postModel = model('PostModel');
-        $dados = ['post' => $postModel->find($id), 'msg' => ''];
+        $dados['post'] = $postModel->find($id);
+        $dados['msg'] = '';
+
         if (!$dados['post']) {
             throw PageNotFoundException::forPageNotFound();
         }
+
         if ($this->request->is('post')) {
-            if ($postModel->update($id, $this->request->getPost())) {
+            $post = [
+                'titulo' => $this->request->getPost('titulo'),
+                'conteudo' => $this->request->getPost('conteudo')
+            ];
+
+            if ($postModel->update($id, $post)) {
                 return redirect()->to(site_url('painel/posts'));
             }
-            $dados['msg'] = 'Erro ao salvar publicação.';
+
+            $dados['msg'] = 'Não foi possível salvar a publicação.';
         }
+
         return view('posts_form', $dados);
     }
 
@@ -64,6 +86,7 @@ class Posts extends BaseController
     {
         $postModel = model('PostModel');
         $postModel->delete($id);
+
         return redirect()->to(site_url('painel/posts'));
     }
 }
