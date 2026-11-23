@@ -1,19 +1,20 @@
 # Trabalho T1 - Blog
 
-Blog simples feito com PHP e CodeIgniter 4.
+Blog simples desenvolvido com PHP, CodeIgniter 4 e MySQL.
+
+## Funcionalidades
+- Página inicial com os títulos das últimas postagens
+- Página com o conteúdo completo de cada postagem
+- Painel para cadastrar, editar e excluir postagens
 
 ## Como executar
+1. Instale PHP 8.2 ou superior, Composer e MySQL.
+2. Execute `composer install` na pasta do projeto.
+3. Importe o arquivo `banco.sql` no phpMyAdmin.
+4. Copie `env` para `.env` e configure o banco de dados.
+5. Execute `php spark serve`.
+6. Acesse http://localhost:8080 e http://localhost:8080/painel/posts.
 
-1. Crie o projeto base com `composer create-project codeigniter4/appstarter blog`.
-2. Copie as pastas `app` e `public` deste repositório para a pasta do projeto. Mantenha os demais arquivos originais do CodeIgniter.
-3. Importe o arquivo `banco.sql` no MySQL.
-4. Renomeie o arquivo `env` do CodeIgniter para `.env` e configure os dados de acesso ao banco `blog`. Use o driver `MySQLi`.
-5. Na pasta do projeto, execute `php spark serve`.
+O painel não tem login e deve ser usado apenas em ambiente local.
 
-## Páginas
-
-- `/` - mostra as últimas postagens.
-- `/post/1` - mostra uma postagem.
-- `/painel/posts` - lista, adiciona, edita e exclui postagens.
-
-O painel não possui login. Ele foi feito para demonstrar o funcionamento do CRUD em ambiente local.
+A estrutura completa baseada nos arquivos da aula e o PDF de instruções também foram preparados para entrega em ZIP.
