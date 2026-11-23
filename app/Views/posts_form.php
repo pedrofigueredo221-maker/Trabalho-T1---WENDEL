@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head><meta charset="UTF-8"><title>Publicação</title><link rel="stylesheet" href="<?= base_url('estilo.css') ?>"></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Postagem</title>
+    <link rel="stylesheet" href="<?= base_url('estilo.css') ?>">
+</head>
 <body>
-<header><h1><?= $post ? 'Editar publicação' : 'Nova publicação' ?></h1></header>
-<main>
-    <p><?= esc($msg) ?></p>
-    <form method="post">
-        <?= csrf_field() ?>
-        <label>Título</label>
-        <input name="titulo" maxlength="150" required value="<?= esc($post->titulo ?? '') ?>">
-        <label>Conteúdo</label>
-        <textarea name="conteudo" rows="10" required><?= esc($post->conteudo ?? '') ?></textarea>
-        <button type="submit">Salvar</button>
-        <a href="<?= site_url('painel/posts') ?>">Cancelar</a>
-    </form>
-</main>
+    <header>
+        <h1><?= isset($post) ? 'Editar postagem' : 'Nova postagem' ?></h1>
+    </header>
+
+    <main>
+        <?php if (!empty($msg)): ?>
+            <p><?= esc($msg) ?></p>
+        <?php endif; ?>
+
+        <form method="post">
+            <?= csrf_field() ?>
+
+            <label for="titulo">Título</label>
+            <input id="titulo" type="text" name="titulo" maxlength="150" required value="<?= esc(old('titulo', $post->titulo ?? '')) ?>">
+
+            <label for="conteudo">Conteúdo</label>
+            <textarea id="conteudo" name="conteudo" rows="8" required><?= esc(old('conteudo', $post->conteudo ?? '')) ?></textarea>
+
+            <button type="submit">Salvar</button>
+            <a href="<?= site_url('painel/posts') ?>">Cancelar</a>
+        </form>
+    </main>
 </body>
 </html>
